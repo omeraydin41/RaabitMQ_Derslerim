@@ -26,7 +26,7 @@ await channel.QueueDeclareAsync(queue: "ikinci.q", // Kuyruğumuzun adı 'birQ' 
 
 
 
-await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
+await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 5, global: false);
 
 //prefetchSize: 0 → Mesaj boyutuna göre sınır yok. Yani RabbitMQ, mesaj boyutuna bakmadan gönderebilir.
 //globak false olursa prefetchCount da yazan değer kadar her abonye aynı anda o kadar mesaj gönderir.mesela 1
