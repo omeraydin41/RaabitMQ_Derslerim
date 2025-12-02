@@ -14,7 +14,7 @@ using var connection = await factory.CreateConnectionAsync();
 
 using var channel = await connection.CreateChannelAsync();
 
-await channel.QueueDeclareAsync(queue: "ikinci.q", // Kuyruğumuzun adı 'birQ' olsun.
+await channel.QueueDeclareAsync(queue: "ikinci.que", // Kuyruğumuzun adı 'birQ' olsun.
                              durable: false, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
                              exclusive: false, // Bu kuyruğu sadece biz değil,channel den başka değişkenlerde erişsin.subscriber tarafından erişilecek 
                              autoDelete: false, // Son kullanıcı bağlantısı kapansa bile kuyruk otomatik silinmesin.
@@ -43,7 +43,7 @@ var consumer = new AsyncEventingBasicConsumer(channel);
 // "birQ" isminde kuyruğu tüketmeye (dinlemeye) başlatıyoruz.
 // 2. parametre: autoAck (false = manuel onaylama) -> Mesajı biz onaylayacağız.
 // consumer: Mesajları teslim edecek tüketici.
-await channel.BasicConsumeAsync("ikinci.q", false, consumer);
+await channel.BasicConsumeAsync("ikinci.que", false, consumer);
 
 // Mesaj her geldiğinde tetiklenecek event.
 // sender: olayı tetikleyen consumer

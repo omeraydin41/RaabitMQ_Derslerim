@@ -19,7 +19,7 @@ using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
 // Kanala bir kuyruk tanımlamasını asenkron olarak gönderiyoruz.
-await channel.QueueDeclareAsync(queue: "ikinci.q", // Kuyruğumuzun adı 'birQ' olsun.
+await channel.QueueDeclareAsync(queue: "ikinci.que", // Kuyruğumuzun adı 'birQ' olsun.
                              durable: false, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
                              exclusive: false, // Bu kuyruğu sadece biz değil,channel den başka değişkenlerde erişsin.subscriber tarafından erişilecek 
                              autoDelete: false, // Son kullanıcı bağlantısı kapansa bile kuyruk otomatik silinmesin.
@@ -35,7 +35,7 @@ foreach (var x in list) // Listedeki her sayı için döngü
 
     await channel.BasicPublishAsync(
         exchange: string.Empty, // Default exchange kullan
-        routingKey: "birQ", // Mesajın gideceği kuyruğun adı
+        routingKey: "ikinci.que", // Mesajın gideceği kuyruğun adı
         mandatory: false, // Mesaj hedefe ulaşamazsa hata dikkate alınmasın
         basicProperties: new BasicProperties { Persistent = true }, // Mesaj kalıcı olsun
         body: bodyMessage // Byte dizisi halindeki mesajı gönder
