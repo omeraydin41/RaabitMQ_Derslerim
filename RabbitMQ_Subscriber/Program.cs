@@ -14,11 +14,23 @@ using var connection = await factory.CreateConnectionAsync();
 
 using var channel = await connection.CreateChannelAsync();
 
-await channel.QueueDeclareAsync(queue: "birQ", // Kuyruğumuzun adı 'birQ' olsun.
-                             durable: true, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
+await channel.QueueDeclareAsync(queue: "ikinci.q", // Kuyruğumuzun adı 'birQ' olsun.
+                             durable: false, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
                              exclusive: false, // Bu kuyruğu sadece biz değil,channel den başka değişkenlerde erişsin.subscriber tarafından erişilecek 
                              autoDelete: false, // Son kullanıcı bağlantısı kapansa bile kuyruk otomatik silinmesin.
                              arguments: null); // Ekstra ayar yok.
+
+
+
+
+
+
+
+await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
+
+//prefetchSize: 0 → Mesaj boyutuna göre sınır yok. Yani RabbitMQ, mesaj boyutuna bakmadan gönderebilir.
+//globak false olursa prefetchCount da yazan değer kadar her abonye aynı anda o kadar mesaj gönderir.mesela 1
+//global true olursa örnek 2 abone 5 mesaj varsa toplam 3 2 şki olarak ayarlar yani 5 tane mesajı tum aboneler arasında dağıtır
 
 
 
@@ -31,7 +43,7 @@ var consumer = new AsyncEventingBasicConsumer(channel);
 // "birQ" isminde kuyruğu tüketmeye (dinlemeye) başlatıyoruz.
 // 2. parametre: autoAck (false = manuel onaylama) -> Mesajı biz onaylayacağız.
 // consumer: Mesajları teslim edecek tüketici.
-await channel.BasicConsumeAsync("birQ", false, consumer);
+await channel.BasicConsumeAsync("ikinci.q", false, consumer);
 
 // Mesaj her geldiğinde tetiklenecek event.
 // sender: olayı tetikleyen consumer
@@ -45,22 +57,11 @@ consumer.ReceivedAsync += (object sender, BasicDeliverEventArgs e) =>
     // Gelen mesajı ekrana yazdırıyoruz
     Console.WriteLine("Gelen Mesaj: " + message);
 
-    // Manuel mesaj onayı yapılmazsa mesaj kuyrukta "unacked" kalır.
-    // Eğer kanal autoAck=false olduğu için buraya eklemeyi unutursan mesaj silinmez.
-    channel.BasicAckAsync(e.DeliveryTag, multiple: false);
+
+    
+    channel.BasicAckAsync(e.DeliveryTag, multiple: false);// mesajın kuyruktan silinmesini sağlar oto silinmedi biz haber verdik.
 
     // Event’in async olduğu için Task.CompletedTask döndürmek zorundayız.
     return Task.CompletedTask;
 };
 
-
-//var body = e.Body.ToArray();
-//var message = Encoding.UTF8.GetString(body);
-//Console.WriteLine("Gelen Mesaj: " + message);
-//return Task.CompletedTask;
-
-//consumer received bir eventtir ve bu event için bir method yazmamız gerekiyor.istersek değişkenleride yukrada kullanabılırız 
-//Task Consumer_ReceivedAsync(object sender, BasicDeliverEventArgs @event)
-//{
-//    throw new NotImplementedException();
-//}

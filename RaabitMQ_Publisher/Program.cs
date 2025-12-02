@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using RabbitMQ.Client; // RabbitMQ kütüphanesini (client) kullanabilmek için ekliyoruz.
+using System.Linq;
 using System.Text;   // Mesaj metnini byte dizisine çevirmek için gerekli.
 
 // Bağlantı ayarlarını tutacak bir nesne oluşturuyoruz.
@@ -18,30 +19,31 @@ using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
 // Kanala bir kuyruk tanımlamasını asenkron olarak gönderiyoruz.
-await channel.QueueDeclareAsync(queue: "birQ", // Kuyruğumuzun adı 'birQ' olsun.
-                             durable: true, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
+await channel.QueueDeclareAsync(queue: "ikinci.q", // Kuyruğumuzun adı 'birQ' olsun.
+                             durable: false, // **ÖNEMLİ:** RabbitMQ sunucusu yeniden başlasa bile kuyruğun silinmemesini sağlar.
                              exclusive: false, // Bu kuyruğu sadece biz değil,channel den başka değişkenlerde erişsin.subscriber tarafından erişilecek 
                              autoDelete: false, // Son kullanıcı bağlantısı kapansa bile kuyruk otomatik silinmesin.
                              arguments: null); // Ekstra ayar yok.
 
-// Göndereceğimiz mesaj metnini belirliyoruz.
-var message = "Hello World!";
-// RabbitMQ sadece byte dizisi kabul eder, bu yüzden metni UTF8 formatında byte'a çeviriyoruz.
-var bodyMessage = Encoding.UTF8.GetBytes(message);
 
-// Hazırladığımız mesajı kanala yayımlıyoruz (gönderiyoruz).
-await channel.BasicPublishAsync(exchange: string.Empty, // Exchange (değiştirici) kullanmıyoruz, direkt kuyruğa göndereceğiz (Default Exchange).
-                             routingKey: "birQ", // Exchange kullanmadığımız için, mesajın gideceği kuyruğun adını buraya yazıyoruz.
-                             mandatory: false, // Mesajın hedefine ulaşamazsa ne olacağıyla ilgilenmiyoruz.
-                                               // Mesajın özelliklerini belirliyoruz.
-                             basicProperties: new BasicProperties { Persistent = true },// **ÖNEMLİ:** Mesajın kendisinin de sunucu yeniden başlasa bile kaybolmamasını sağlar.
-                             body: bodyMessage); // Göndereceğimiz byte dizisi halindeki mesajımız.
+var list = Enumerable.Range(1, 20).ToList(); // 1'den 20'ye kadar sayılardan oluşan liste oluştur
 
-// Konsola mesajın gönderildiğini yazdırarak kullanıcıyı bilgilendiriyoruz.
-Console.WriteLine("mesaj gonderildi");
+foreach (var x in list) // Listedeki her sayı için döngü
+{
+    var message = $"{x}.mesaj gönderildi!"; // bilgi mesajı 
+    var bodyMessage = Encoding.UTF8.GetBytes(message); // Mesajı byte dizisine çevir
 
-// Mesajın gönderilmesi için 2 saniye bekliyoruz (uygulamanın hemen kapanmaması için).
-await Task.Delay(2000);
+    await channel.BasicPublishAsync(
+        exchange: string.Empty, // Default exchange kullan
+        routingKey: "birQ", // Mesajın gideceği kuyruğun adı
+        mandatory: false, // Mesaj hedefe ulaşamazsa hata dikkate alınmasın
+        basicProperties: new BasicProperties { Persistent = true }, // Mesaj kalıcı olsun
+        body: bodyMessage // Byte dizisi halindeki mesajı gönder
+    );
+
+    Console.WriteLine($"mesaj gonderildi{message}"); // Konsola mesaj gönderildiğini yaz
+    await Task.Delay(2000); // 2 saniye bekle, uygulamanın hemen kapanmasını önle
+}
 
 // Kullanıcıdan bir tuşa basmasını bekle (uygulama penceresinin açık kalması için).
 Console.ReadLine();
