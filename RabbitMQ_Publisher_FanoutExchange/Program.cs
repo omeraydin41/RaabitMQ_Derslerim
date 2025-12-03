@@ -9,7 +9,7 @@ using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
 
-//Fanout exchange olduğundan kuyruk declare etme işelmini subsciber tarafında yapıyoruz
+
 //await channel.QueueDeclareAsync(
 //    queue: "ikinci.que",
 //    durable: false,
@@ -18,15 +18,17 @@ using var channel = await connection.CreateChannelAsync();
 //    arguments: null
 //);
 
+
+
 //daha once kanal üzerindn kuyruk deklare ederken şimdi exchange deklare ediyoruz
 //Fanout exchange hiç fitrelem yapmadan tüm bağlı kuyruklara mesaj gönderir
-await channel.ExchangeDeclareAsync
+await channel.ExchangeDeclareAsync//burda bir exchange declare edildi 
     (
-     "logs-fanout",//exchange ismi
+     "logs-fanout",//Declare edilen exchange ismi 
      type: ExchangeType.Fanout,//fanout tipinde exchange deklare ettik
      durable: true // RabbitMQ restart olsa bile exchange kalıcı olsun
     );
-
+//Fanout exchange olduğundan kuyruk declare etme işelmini subsciber tarafında yapıyoruz
 var list = Enumerable.Range(1, 20).ToList();
 
 foreach (var x in list)

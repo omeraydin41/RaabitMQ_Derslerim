@@ -13,8 +13,9 @@ using var channel = await connection.CreateChannelAsync();
 //dosya yolundan 3 farklı kuyruk deklare edeceğiz 
 //3 farklı kuyruk olsun bu yuzden kuyruk adlarını Random atayacağız 
 
-var queue = await channel.QueueDeclareAsync();
-var queueName = queue.QueueName;
+var queue = await channel.QueueDeclareAsync();//channel uzerınden kuyruk decclar ettık 
+var queueName = queue.QueueName;//ve QueueName RANDOM KUYRUK ADI VERİR
+
 
 await channel.QueueBindAsync(// Kuyruğu bir exchange'e bağlamayı asenkron şekilde başlatır.
     queue: queueName, // Bağlanacak kuyruk adı (subscriber'ın oluşturduğu random kuyruk).
@@ -24,7 +25,7 @@ await channel.QueueBindAsync(// Kuyruğu bir exchange'e bağlamayı asenkron şe
 );// Bind işlemini tamamlar.
 
 
-
+//BİND : uygulama kapandığında kuyrukta kapanır //kuyrukta declare edebılırdık 
 //kuyruk declare etmedik çünku uygulama her ayağı kalktıpında random isimle kuyruk BİND olacak uygulama kapandıpında kuyruk silinecek
 //eğer yukruk kalıcı olunması ıstenırse declare edilebilir
 
