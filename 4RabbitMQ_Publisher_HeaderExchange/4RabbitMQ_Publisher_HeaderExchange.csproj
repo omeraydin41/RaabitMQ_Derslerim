@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>_2RabbitMQ_Subscriber_DirectExchange</RootNamespace>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>_4RabbitMQ_Publisher_HeaderExchange</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FanoutExchange", "FanoutExc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1RabbitMQ_Subscriber_FanoutExchange", "RabbitMQ_Subscriber_FanoutExchange\1RabbitMQ_Subscriber_FanoutExchange.csproj", "{0E20D0DF-7D88-4900-A1BA-ABD6AAF962FE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct exchage", "Direct exchage", "{3966FACD-AD00-4CA3-A52B-76C157AF3F3C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct Exchange", "Direct Exchange", "{3966FACD-AD00-4CA3-A52B-76C157AF3F3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2RabbitMQ_Publisher_DirectExchange", "2RabbitMQ_Publisher_DirectExchange\2RabbitMQ_Publisher_DirectExchange.csproj", "{5D47B832-1513-44FF-B912-2BF65709FD12}"
 EndProject
@@ -24,6 +24,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3RabbitMQ_Publisher_TopicExchange", "3RabbitMQ_Publisher_TopicExchange\3RabbitMQ_Publisher_TopicExchange.csproj", "{C81ABE73-59BF-4645-8D2E-7BA783DBF208}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3RabbitMQ_Subscriber_TopicExchange", "3RabbitMQ_Subscriber_TopicExchange\3RabbitMQ_Subscriber_TopicExchange.csproj", "{B2869D80-DA82-43A9-8F57-1BD569C3EE34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Header Exchange", "Header Exchange", "{7A23510E-F3AB-4013-854E-C4F89463C78F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4RabbitMQ_Publisher_HeaderExchange", "4RabbitMQ_Publisher_HeaderExchange\4RabbitMQ_Publisher_HeaderExchange.csproj", "{13E52DD8-61D3-4973-AEF7-2157F34EC106}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4RabbitMQ_Subscriber_HeaderExcahange", "4RabbitMQ_Subscriber_HeaderExcahange\4RabbitMQ_Subscriber_HeaderExcahange.csproj", "{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +69,14 @@ Global
 		{B2869D80-DA82-43A9-8F57-1BD569C3EE34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2869D80-DA82-43A9-8F57-1BD569C3EE34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2869D80-DA82-43A9-8F57-1BD569C3EE34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E52DD8-61D3-4973-AEF7-2157F34EC106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E52DD8-61D3-4973-AEF7-2157F34EC106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E52DD8-61D3-4973-AEF7-2157F34EC106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E52DD8-61D3-4973-AEF7-2157F34EC106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +88,8 @@ Global
 		{52E69FA3-B263-4453-AD36-75FEDF37D5BD} = {3966FACD-AD00-4CA3-A52B-76C157AF3F3C}
 		{C81ABE73-59BF-4645-8D2E-7BA783DBF208} = {46BBD7C3-70F9-4F89-8527-F9B55257147D}
 		{B2869D80-DA82-43A9-8F57-1BD569C3EE34} = {46BBD7C3-70F9-4F89-8527-F9B55257147D}
+		{13E52DD8-61D3-4973-AEF7-2157F34EC106} = {7A23510E-F3AB-4013-854E-C4F89463C78F}
+		{E37930B8-A32B-4ABC-8D72-1A9D3DD37CD2} = {7A23510E-F3AB-4013-854E-C4F89463C78F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7656355-0118-4291-A74F-CE6392E22464}
