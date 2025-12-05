@@ -1,5 +1,7 @@
 ﻿using RabbitMQ.Client;
+using Shared;
 using System.Text;
+using System.Text.Json;
 
 internal class Program
 {
@@ -33,9 +35,24 @@ internal class Program
         {
             Headers = headers // Oluşturduğum header sözlüğünü buraya veriyorum
         };
+        properties.Persistent = true;
+
+        var product = new Product//class lıb içerisinden product classı ıverisnden nesne oluşturdum ve proplara değer verdik 
+        {
+            Id = 1,
+            Name = "Laptop",
+            Price = 15000,
+            Stock = 5
+
+        };
+
+        var productJsonSting= JsonSerializer.Serialize(product);//oluşturduğum product nesnesini json stringe çevirdim
+        //mesajları serialize etme işlemi yaptık /VERİLERİN OKUNABILIR FOTMATTA GONDERİLMESİ İÇİN //DE-SERIALIZE İŞLEMİ SE VERİLERİ OKNUMAFORMATINA ÇEVİRMEK 
+
+
 
         string message = "This is a header exchange test message."; // Göndermek istediğim mesaj
-        var body = Encoding.UTF8.GetBytes(message); // Mesajı byte dizisine çevirdim çünkü RabbitMQ byte alıyor
+        var body = Encoding.UTF8.GetBytes(productJsonSting); // Mesajı byte dizisine çevirdim çünkü RabbitMQ byte alıyor
 
         await channel.BasicPublishAsync(
             exchange: "header-exchange",  // Mesajı göndereceğim exchange
@@ -45,7 +62,7 @@ internal class Program
             body: body                    // Göndereceğim asıl mesaj (byte formatında)
         );
 
-        Console.WriteLine("log gönderildi."); // Mesajın gittiğini konsola yazdırıyorum
+        Console.WriteLine("mesaj gönderildi."); // Mesajın gittiğini konsola yazdırıyorum
 
         Console.ReadLine(); // Console kapanmasın diye bekletiyorum
     }
